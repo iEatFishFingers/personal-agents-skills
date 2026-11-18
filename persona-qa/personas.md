@@ -60,7 +60,7 @@ Also flag App Store and Play review risks: guideline 3.1.1 / 3.1.2 (purchases, a
 **Who:** iPhone SE (375×667), large text, slow and flaky metered 3G, low storage, older CPU. Switches apps often and loses signal.
 
 **Browser:**
-- `devices['iPhone SE']` context.
+- Context `{ viewport: { width: 375, height: 667 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true }`. Do NOT use `devices['iPhone SE']`: that preset is 320×568, narrower than a real SE. Do one extra pass at 320 wide.
 - Throttle the network over CDP: `const cdp = await context.newCDPSession(page); await cdp.send('Network.emulateNetworkConditions', { offline: false, latency: 400, downloadThroughput: 50*1024, uploadThroughput: 20*1024 });`
 - Go offline mid-flow with `context.setOffline(true)`.
 - Approximate large text with `page.addStyleTag({ content: 'html{font-size:130% !important}' })`, and note that this is an approximation.
@@ -77,6 +77,8 @@ Also flag App Store and Play review risks: guideline 3.1.1 / 3.1.2 (purchases, a
 ---
 
 ## 4. The Non-Native Speaker
+
+*Run this only when translation is in scope. If everyone using the product reads English, use the icon navigator in [persona-catalogue.md](persona-catalogue.md) instead; it tests the same "can I find the next step from layout alone" question without the language one.*
 
 **Who:** A Spanish speaker who **cannot read English**. Phone and browser are set to Spanish. They navigate by icons, images, layout, numbers, colour, and any text in Spanish. **If the next step can't be found without reading English, they give up and the session ends.**
 
@@ -138,6 +140,11 @@ At the end, spend one short pass with `locale: 'ar'` checking right-to-left layo
    - signing out mid-task
    - the same action twice
 4. **Edge states:** empty lists, deep links to missing ids (e.g. `/book/does-not-exist`), an expired session.
+
+5. **Roles and money** (when the product has more than one role, or takes payment):
+   - Replay privileged requests from a lower-privilege session (see the role-boundary breaker in [persona-catalogue.md](persona-catalogue.md)).
+   - Tamper with prices, quantities, durations and ids in requests; the server must recompute and refuse, and you must report what it did.
+   - Hit every limit (caps, one-per-customer rules) from two tabs at the same moment, and retry the same request twice.
 
 For each attack, trace the cause in code. Is there validation? Is the error caught and shown in plain words, swallowed silently, or does it crash or leave state stuck?
 

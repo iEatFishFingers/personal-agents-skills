@@ -1,0 +1,29 @@
+{
+  "envFile": "C:/path/to/project/.env.local",
+  "urlVar": "NEXT_PUBLIC_SUPABASE_URL",
+  "keyVar": "SUPABASE_SERVICE_ROLE_KEY",
+  "currency": "£",
+  "minorUnit": 100,
+  "synthetic": true,
+  "table": "bookings",
+  "statusColumn": "status",
+  "amountColumn": "total_pence",
+  "dateColumn": "booking_date",
+  "itemColumn": "service_id",
+  "groups": {
+    "realised": ["completed"],
+    "expected": ["confirmed", "pending"],
+    "lost": ["no_show", "cancelled"]
+  },
+  "freeItems": {
+    "priceTable": "services",
+    "idColumn": "id",
+    "priceColumn": "price_pence",
+    "valueAs": { "core": "haircut", "plus": "haircut", "premium": "haircut-beard" }
+  },
+  "recurring": {
+    "table": "memberships",
+    "planColumn": "plan",
+    "priceByPlan": { "core": 2999, "plus": 3999, "premium": 6999 }
+  }
+}
