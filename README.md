@@ -6,6 +6,7 @@ My personal [Claude Code](https://claude.com/claude-code) skills.
 |---|---|
 | [persona-qa](persona-qa/SKILL.md) | A QA lead that runs 5 first-time-user personas through an app. Each reads the code, then drives the live web app in its own Playwright browser. The lead merges their findings into one ranked fix list, with retest and fix modes. |
 | [owasp-audit](owasp-audit/SKILL.md) | A security lead that runs 10 auditors through an app, one per OWASP Top 10 risk (with the Mobile Top 10 folded in), and merges their findings into one verified, ranked list. A fix phase follows, then 2 gate agents (Exploit Verifier and Build Guardian) cross-check every fix. Both must pass before anything is committed. |
+| [codebase-wiki](codebase-wiki/SKILL.md) | A documentation lead that runs an Opus overseer and about 6 Sonnet workers, each owning one area of the codebase, to build an Obsidian-style wiki (linked notes, architecture, security model, request lifecycles, glossary, open-issues list) plus a `status.md`. The overseer rules on clashes between workers. A bundled checker (`check-wiki.mjs`) verifies links, coverage and secrets before anything is committed. Has an `update` mode that re-documents only what changed. |
 
 ## Install
 
